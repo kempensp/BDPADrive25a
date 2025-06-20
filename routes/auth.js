@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 var auth = require('../middleware/auth');
 
 /* GET auth page */
@@ -91,6 +92,7 @@ router.post('/logout', function (req, res, next) {
         }
         res.redirect('/');
     });
+
 });
 
 module.exports = router;
