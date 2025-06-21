@@ -1,0 +1,39 @@
+<%- include('partials/head') %>
+<%- include('partials/menu') %>
+<div class="container mt-5">
+  <h2>File Explorer</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <h4>Create New Folder</h4>
+      <form action="/explorer/folder" method="POST" class="mb-4">
+        <div class="mb-3">
+          <label for="folderName" class="form-label">Folder Name</label>
+          <input type="text" class="form-control" id="folderName" name="folderName" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Folder</button>
+      </form>
+      <h4>Create New File</h4>
+      <form action="/explorer/file" method="POST">
+        <div class="mb-3">
+          <label for="fileName" class="form-label">File Name</label>
+          <input type="text" class="form-control" id="fileName" name="fileName" required>
+        </div>
+        <div class="mb-3">
+          <label for="tags" class="form-label">Tags (comma separated, max 5)</label>
+          <input type="text" class="form-control" id="tags" name="tags">
+        </div>
+        <div class="mb-3">
+          <label for="content" class="form-label">File Content (Markdown, max 10KiB)</label>
+          <textarea class="form-control" id="content" name="content" rows="4" maxlength="10240"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Create File</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h4>Your Files & Folders</h4>
+      <!-- Placeholder for file/folder list -->
+      <div class="alert alert-info">File/folder list will appear here.</div>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>

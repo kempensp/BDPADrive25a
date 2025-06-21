@@ -9,6 +9,7 @@ require('dotenv').config();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
+var explorerRouter = require('./routes/explorer');
 
 var app = express();
 
@@ -37,18 +38,12 @@ app.use(function (req, res, next) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/explorer', explorerRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
-// filepath: app.js (or your main server file)
-app.get('/auth', (req, res) => {
-  res.render('auth');
-});
-
-
 
 
 
