@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+
+    <body>
+        <%- include('partials/menu') %>
+
+            <div class="container py-4">
+                <!-- Welcome Header -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="welcome-header bg-gradient-primary text-white p-4 rounded">
+                            <h1 class="h3 mb-2">
+                                <i class="fas fa-user-circle me-2"></i>Welcome back, <%= user.username %>!
+                            </h1>
+                            <p class="mb-0 opacity-75">Ready to create something amazing today?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h4 class="mb-3">Quick Actions</h4>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="card h-100 text-center quick-action-card">
+                                    <div class="card-body">
+                                        <i class="fas fa-plus-circle fa-2x text-primary mb-3"></i>
+                                        <h6 class="card-title">New Document</h6>
+                                        <button class="btn btn-primary btn-sm">Create</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="card h-100 text-center quick-action-card">
+                                    <div class="card-body">
+                                        <i class="fas fa-folder-plus fa-2x text-success mb-3"></i>
+                                        <h6 class="card-title">New Folder</h6>
+                                        <button class="btn btn-success btn-sm">Create</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="card h-100 text-center quick-action-card">
+                                    <div class="card-body">
+                                        <i class="fas fa-upload fa-2x text-info mb-3"></i>
+                                        <h6 class="card-title">Upload File</h6>
+                                        <button class="btn btn-info btn-sm">Upload</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="card h-100 text-center quick-action-card">
+                                    <div class="card-body">
+                                        <i class="fas fa-search fa-2x text-warning mb-3"></i>
+                                        <h6 class="card-title">Search Files</h6>
+                                        <button class="btn btn-warning btn-sm">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Files and Statistics -->
+                <div class="row">
+                    <!-- Recent Files -->
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-clock me-2"></i>Recent Files
+                                </h5>
+                                <a href="/files" class="btn btn-sm btn-outline-primary">View All</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Type</th>
+                                                <th>Modified</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <i class="fas fa-file-alt text-primary me-2"></i>
+                                                    Project Proposal.docx
+                                                </td>
+                                                <td><span class="badge bg-primary">Document</span></td>
+                                                <td>2 hours ago</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="fas fa-file-alt text-primary me-2"></i>
+                                                    Meeting Notes.docx
+                                                </td>
+                                                <td><span class="badge bg-primary">Document</span></td>
+                                                <td>1 day ago</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="fas fa-folder text-warning me-2"></i>
+                                                    Templates
+                                                </td>
+                                                <td><span class="badge bg-warning">Folder</span></td>
+                                                <td>3 days ago</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-folder-open"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="text-center text-muted py-3">
+                                    <i class="fas fa-inbox fa-2x mb-2"></i>
+                                    <p>No recent files found. <a href="#" class="text-decoration-none">Create your first
+                                            document</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="col-lg-4">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-chart-pie me-2"></i>Storage Usage
+                                </h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="progress mb-3" style="height: 20px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 35%">
+                                        35%
+                                    </div>
+                                </div>
+                                <p class="mb-0">3.5 GB of 10 GB used</p>
+                                <small class="text-muted">6.5 GB remaining</small>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-info-circle me-2"></i>Account Info
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label text-muted">Username</label>
+                                    <p class="mb-0">
+                                        <%= user.username %>
+                                    </p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted">Email</label>
+                                    <p class="mb-0">
+                                        <%= user.email %>
+                                    </p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted">Account Type</label>
+                                    <p class="mb-0">
+                                        <span class="badge bg-success">Premium</span>
+                                    </p>
+                                </div>
+                                <a href="/profile" class="btn btn-outline-primary btn-sm w-100">
+                                    <i class="fas fa-user-edit me-2"></i>Edit Profile
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <%- include('partials/footer') %>
+    </body>
+
+</html>

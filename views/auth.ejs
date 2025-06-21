@@ -1,39 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-    <h2>Login</h2>
-    <form action="/login" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Login</button>
-    </form>
-    <a href="/index">Back to Home</a>
-</body>
-</html>
 
+<%- include('partials/head') %>
 
+    <body>
+        <%- include('partials/menu') %>
 
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="auth-container">
+                            <div class="row g-0 shadow-lg rounded-lg overflow-hidden">
+                                <!-- Left side - Login -->
+                                <div class="col-md-6 bg-white">
+                                    <div class="p-5">
+                                        <h3 class="text-center mb-4">
+                                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                                        </h3>
 
+                                        <% if (error) { %>
+                                            <div class="alert alert-danger" role="alert">
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <%= error %>
+                                            </div>
+                                            <% } %>
 
+                                                <% if (success) { %>
+                                                    <div class="alert alert-success" role="alert">
+                                                        <i class="fas fa-check-circle me-2"></i>
+                                                        <%= success %>
+                                                    </div>
+                                                    <% } %>
 
+                                                        <form action="/auth/login" method="POST">
+                                                            <div class="mb-3">
+                                                                <label for="loginUsername"
+                                                                    class="form-label">Username</label>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text">
+                                                                        <i class="fas fa-user"></i>
+                                                                    </span>
+                                                                    <input type="text" class="form-control"
+                                                                        id="loginUsername" name="username" required>
+                                                                </div>
+                                                            </div>
 
+                                                            <div class="mb-3">
+                                                                <label for="loginPassword"
+                                                                    class="form-label">Password</label>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text">
+                                                                        <i class="fas fa-lock"></i>
+                                                                    </span>
+                                                                    <input type="password" class="form-control"
+                                                                        id="loginPassword" name="password" required>
+                                                                </div>
+                                                            </div>
 
+                                                            <div class="mb-3 form-check">
+                                                                <input type="checkbox" class="form-check-input"
+                                                                    id="rememberMe">
+                                                                <label class="form-check-label"
+                                                                    for="rememberMe">Remember me</label>
+                                                            </div>
 
+                                                            <button type="submit" class="btn btn-primary w-100 mb-3">
+                                                                <i class="fas fa-sign-in-alt me-2"></i>Login
+                                                            </button>
 
+                                                            <div class="text-center">
+                                                                <a href="#" class="text-muted">Forgot password?</a>
+                                                            </div>
+                                                        </form>
+                                    </div>
+                                </div>
 
+                                <!-- Right side - Register -->
+                                <div class="col-md-6 bg-light">
+                                    <div class="p-5">
+                                        <h3 class="text-center mb-4">
+                                            <i class="fas fa-user-plus me-2"></i>Register
+                                        </h3>
 
+                                        <form action="/auth/register" method="POST">
+                                            <div class="mb-3">
+                                                <label for="registerUsername" class="form-label">Username</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-user"></i>
+                                                    </span>
+                                                    <input type="text" class="form-control" id="registerUsername"
+                                                        name="username" required>
+                                                </div>
+                                            </div>
 
+                                            <div class="mb-3">
+                                                <label for="registerEmail" class="form-label">Email</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-envelope"></i>
+                                                    </span>
+                                                    <input type="email" class="form-control" id="registerEmail"
+                                                        name="email" required>
+                                                </div>
+                                            </div>
 
+                                            <div class="mb-3">
+                                                <label for="registerPassword" class="form-label">Password</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-lock"></i>
+                                                    </span>
+                                                    <input type="password" class="form-control" id="registerPassword"
+                                                        name="password" required>
+                                                </div>
+                                            </div>
 
+                                            <div class="mb-3">
+                                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-lock"></i>
+                                                    </span>
+                                                    <input type="password" class="form-control" id="confirmPassword"
+                                                        name="confirmPassword" required>
+                                                </div>
+                                            </div>
 
+                                            <div class="mb-3 form-check">
+                                                <input type="checkbox" class="form-check-input" id="agreeTerms"
+                                                    required>
+                                                <label class="form-check-label" for="agreeTerms">
+                                                    I agree to the <a href="#">Terms of Service</a>
+                                                </label>
+                                            </div>
 
+                                            <button type="submit" class="btn btn-success w-100">
+                                                <i class="fas fa-user-plus me-2"></i>Create Account
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <!-- Additional Info -->
+                            <div class="row mt-4">
+                                <div class="col-12 text-center">
+                                    <div class="p-4 bg-white rounded shadow-sm">
+                                        <h5 class="mb-3">Why Choose BDPADrive?</h5>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <i class="fas fa-shield-alt text-primary mb-2"></i>
+                                                <p class="small text-muted">Secure & Private</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <i class="fas fa-rocket text-primary mb-2"></i>
+                                                <p class="small text-muted">Fast & Reliable</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <i class="fas fa-mobile-alt text-primary mb-2"></i>
+                                                <p class="small text-muted">Mobile Friendly</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <%- include('partials/footer') %>
+    </body>
 </html>

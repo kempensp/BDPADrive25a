@@ -1,12 +1,87 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
+<html lang="en">
+<%- include('partials/head') %>
+
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <a href="/auth">Go to Auth Page</a>
+    <%- include('partials/menu') %>
+
+      <!-- Hero Section -->
+      <div class="hero-section bg-gradient-primary text-white py-5">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <h1 class="display-4 fw-bold mb-4">Welcome to BDPADrive</h1>
+              <p class="lead mb-4">
+                Experience the future of word processing with our modern, cloud-based platform.
+                Create, edit, and collaborate on documents from anywhere, anytime.
+              </p>
+              <div class="hero-buttons">
+                <% if (locals.isAuthenticated) { %>
+                  <a href="/dashboard" class="btn btn-light btn-lg me-3">
+                    <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+                  </a>
+                  <% } else { %>
+                    <a href="/auth" class="btn btn-light btn-lg me-3">
+                      <i class="fas fa-sign-in-alt me-2"></i>Get Started
+                    </a>
+                    <% } %>
+                      <a href="#features" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-info-circle me-2"></i>Learn More
+                      </a>
+              </div>
+            </div>
+            <div class="col-lg-6 text-center">
+              <i class="fas fa-cloud-upload-alt hero-icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features Section -->
+      <section id="features" class="py-5">
+        <div class="container">
+          <div class="row text-center mb-5">
+            <div class="col-12">
+              <h2 class="fw-bold">Powerful Features</h2>
+              <p class="text-muted">Everything you need for modern document creation</p>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="feature-card h-100 p-4 text-center">
+                <div class="feature-icon mb-3">
+                  <i class="fas fa-file-alt"></i>
+                </div>
+                <h4>Document Creation</h4>
+                <p class="text-muted">Create and edit documents with our intuitive interface</p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="feature-card h-100 p-4 text-center">
+                <div class="feature-icon mb-3">
+                  <i class="fas fa-users"></i>
+                </div>
+                <h4>Collaboration</h4>
+                <p class="text-muted">Share and collaborate on documents in real-time</p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="feature-card h-100 p-4 text-center">
+                <div class="feature-icon mb-3">
+                  <i class="fas fa-cloud-download-alt"></i>
+                </div>
+                <h4>Cloud Storage</h4>
+                <p class="text-muted">Access your documents from anywhere with secure cloud storage</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <%- include('partials/footer') %>
   </body>
+
 </html>
