@@ -24,7 +24,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'your-secret-key',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // Set to true in production with HTTPS
+  cookie: { secure: process.env.NODE_ENV === 'production' } // Secure cookies in production
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
