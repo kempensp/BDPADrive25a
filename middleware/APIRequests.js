@@ -21,7 +21,11 @@ module.exports = {
           data += chunk;
         });
         res.on('end', () => {
-          resolve(JSON.parse(data));
+          try {
+            resolve(JSON.parse(data));
+          } catch (error) {
+            reject(new Error(`Failed to parse JSON response: ${error.message}`));
+          }
         });
       });
   
