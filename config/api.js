@@ -1,6 +1,6 @@
 // API configuration for BDPADrive
 module.exports = {
-    baseUrl: 'https://bcs.api.bdpa.org/v2',
+    baseUrl: 'https://drive.api.hscc.bdpa.org/v1',
     endpoints: {
         auth: '/auth',
         users: '/users',

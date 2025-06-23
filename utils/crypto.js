@@ -2,10 +2,10 @@ const crypto = require('crypto');
 
 /**
  * Generate a random salt
- * @returns {string} A hexadecimal salt string
+ * @returns {string} A 32-character hexadecimal salt string
  */
 function generateSalt() {
-    return crypto.randomBytes(32).toString('hex');
+    return crypto.randomBytes(16).toString('hex'); // 16 bytes = 32 hex characters
 }
 
 /**

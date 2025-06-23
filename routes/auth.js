@@ -74,16 +74,14 @@ router.post('/login', async function (req, res, next) {
                 captchaQuestion: generateCaptcha().question,
                 loginAttempts: req.session.loginAttempts || 0
             });
-        }
+        }        // Step 1: Get user data (including salt) from API
+        const userUrl = `${apiConfig.baseUrl}${apiConfig.endpoints.users}/${encodeURIComponent(username)}`;
+        debugLog('Fetching user data from', userUrl);
 
-        // Step 1: Get user salt from API
-        const saltUrl = `${apiConfig.baseUrl}${apiConfig.endpoints.users}/${encodeURIComponent(username)}/salt`;
-        debugLog('Fetching salt from', saltUrl);
+        const userResponse = await apiRequests.getWithBearerToken(userUrl, BEARER_TOKEN);
+        debugLog('User response', { status: userResponse.status });
 
-        const saltResponse = await apiRequests.getWithBearerToken(saltUrl, BEARER_TOKEN);
-        debugLog('Salt response', { status: saltResponse.status });
-
-        if (saltResponse.status !== 200) {
+        if (userResponse.status !== 200) {
             // Increment login attempts
             req.session.loginAttempts = (req.session.loginAttempts || 0) + 1;
 
@@ -101,7 +99,7 @@ router.post('/login', async function (req, res, next) {
             });
         }
 
-        const salt = saltResponse.data.salt;
+        const salt = userResponse.data.user.salt;
         debugLog('Retrieved salt for user', { username });
 
         // Step 2: Generate key using password and salt
@@ -120,11 +118,11 @@ router.post('/login', async function (req, res, next) {
         debugLog('Auth response', { status: authResponse.status });
 
         if (authResponse.status === 200) {
-            // Successful authentication
+            // Successful authentication - use user data from initial API call
             req.session.user = {
-                id: authResponse.data.user.id,
-                username: authResponse.data.user.username,
-                email: authResponse.data.user.email
+                id: userResponse.data.user.user_id,
+                username: userResponse.data.user.username,
+                email: userResponse.data.user.email
             };
 
             // Handle remember me functionality
