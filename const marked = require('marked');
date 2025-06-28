@@ -1,0 +1,2 @@
+const marked = require('marked');
+const html = marked(markdownText); // Converts markdownText to HTML

@@ -1,0 +1,98 @@
+<div class="edit-container">
+  <h1 class="edit-title"><%= filename ? 'Edit' : 'Create' %> File</h1>
+  <form class="edit-form" method="post" action="<%= filename ? '/files/edit/' + filename : '/files/new' %>">
+    <% if (!filename) { %>
+      <div class="edit-field">
+        <label for="filename">Filename:</label>
+        <input class="edit-input" type="text" id="filename" name="filename" required>
+      </div>
+    <% } %>
+    <div class="edit-field">
+      <label for="content">Content:</label>
+      <textarea class="edit-textarea" id="content" name="content" rows="18" cols="80"><%= content %></textarea>
+    </div>
+    <div class="edit-actions">
+      <button class="btn btn-primary" type="submit">Save</button>
+      <a class="btn btn-secondary" href="/files<%= filename ? '/view/' + filename : '' %>">Cancel</a>
+      <a class="btn btn-home" href="/">🏠 Home</a>
+    </div>
+  </form>
+</div>
+
+<style>
+.edit-container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 32px 24px 24px 24px;
+}
+.edit-title {
+  margin-bottom: 24px;
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+}
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.edit-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.edit-textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: monospace;
+  resize: vertical;
+}
+.edit-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+.btn {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary {
+  background: #007bff;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #0056b3;
+}
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+.btn-home {
+  background: #28a745;
+  color: #fff;
+  margin-left: 10px;
+}
+.btn-home:hover {
+  background: #218838;
+}
+</style>

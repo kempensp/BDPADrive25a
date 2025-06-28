@@ -1,0 +1,107 @@
+<div class="search-container">
+  <h1 class="search-title">Search Files</h1>
+  <form class="search-form" method="get" action="/search">
+    <input class="search-input" type="text" name="q" value="<%= query %>" placeholder="Search files..." required>
+    <button class="btn btn-primary" type="submit">Search</button>
+  </form>
+  <% if (query && files.length === 0) { %>
+    <div class="search-empty">No results found for "<%= query %>".</div>
+  <% } %>
+  <ul class="search-results">
+    <% files.forEach(function(file) { %>
+      <li class="search-result-item">
+        <a class="search-result-link" href="/files/view/<%= file %>"><%= file %></a>
+      </li>
+    <% }); %>
+  </ul>
+  <div class="search-back">
+    <a class="btn btn-secondary" href="/files">&larr; Back to Files</a>
+    <a class="btn btn-home" href="/">🏠 Home</a>
+  </div>
+</div>
+
+<style>
+.search-container {
+  max-width: 500px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 32px 24px 24px 24px;
+}
+.search-title {
+  margin-bottom: 24px;
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+}
+.search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.search-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.btn {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary {
+  background: #007bff;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #0056b3;
+}
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+.btn-home {
+  background: #28a745;
+  color: #fff;
+  margin-left: 10px;
+}
+.btn-home:hover {
+  background: #218838;
+}
+.search-results {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px 0;
+}
+.search-result-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.search-result-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+.search-result-link:hover {
+  text-decoration: underline;
+}
+.search-empty {
+  color: #888;
+  text-align: center;
+  padding: 20px 0;
+}
+.search-back {
+  text-align: right;
+}
+</style>

@@ -1,27 +1,44 @@
 <!-- This is our horizontal navbar -->
-<ul class="menu">
 <nav>
-  <ul>
+  <ul class="menu">
     <li><a href="/">Home</a></li>
-    <li><a href="/about">About</a></li>
+    <li><a href="/files">My Files</a></li>
+    <li><a href="/search">Search</a></li>
+    <% if (locals.isAuthenticated) { %>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/auth/logout">Logout</a></li>
+    <% } else { %>
+      <li><a href="/auth">Login</a></li>
+    <% } %>
   </ul>
 </nav>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!-- End navbar -->
-  <br><br><br>
+<style>
+.menu {
+  display: flex;
+  gap: 18px;
+  list-style: none;
+  padding: 12px 24px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  margin: 0;
+  align-items: center;
+}
+.menu li {
+  display: inline;
+}
+.menu a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.08rem;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.menu a:hover {
+  background: #e9ecef;
+}
+</style>
+<!-- End navbar -->
+<br>

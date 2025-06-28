@@ -1,0 +1,97 @@
+<div class="view-container">
+  <div class="view-header">
+    <h1 class="view-title">Viewing: <span class="view-filename"><%= filename %></span></h1>
+    <div class="view-actions">
+      <a class="btn btn-edit" href="/files/edit/<%= filename %>">Edit</a>
+      <a class="btn btn-secondary" href="/files">Back to Files</a>
+    </div>
+  </div>
+  <div class="view-content">
+    <%- html %>
+  </div>
+</div>
+
+<style>
+.view-container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 32px 24px 24px 24px;
+}
+.view-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.view-title {
+  font-size: 2rem;
+  color: #333;
+  margin: 0;
+  text-align: center;
+}
+.view-filename {
+  font-size: 1.1rem;
+  color: #007bff;
+  font-weight: 500;
+}
+.view-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 10px;
+}
+.btn {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.btn-edit {
+  background: #ffc107;
+  color: #333;
+}
+.btn-edit:hover {
+  background: #e0a800;
+}
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+.view-content {
+  background: #fafbfc;
+  border-radius: 6px;
+  padding: 24px;
+  font-size: 1.08rem;
+  color: #222;
+  min-height: 200px;
+  margin-top: 10px;
+  word-break: break-word;
+}
+.view-content h1, .view-content h2, .view-content h3 {
+  color: #007bff;
+}
+.view-content pre {
+  background: #272822;
+  color: #f8f8f2;
+  padding: 12px;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+.view-content code {
+  background: #f4f4f4;
+  color: #c7254e;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.98em;
+}
+</style>

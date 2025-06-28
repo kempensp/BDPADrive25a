@@ -1,0 +1,105 @@
+<div class="files-container">
+  <h1 class="files-title">Your Files</h1>
+  <div class="files-actions">
+    <a class="btn btn-primary" href="/files/new">+ Create New File</a>
+    <a class="btn btn-secondary" href="/search" style="margin-left:10px;">Search Files</a>
+    <a class="btn btn-home" href="/" style="margin-left:10px;">🏠 Home</a>
+  </div>
+  <ul class="files-list">
+    <% if (files.length === 0) { %>
+      <li class="files-empty">No files found.</li>
+    <% } %>
+    <% files.forEach(function(file) { %>
+      <li class="files-item">
+        <span class="files-filename"><a href="/files/view/<%= file %>"><%= file %></a></span>
+        <a class="btn btn-sm btn-edit" href="/files/edit/<%= file %>">Edit</a>
+      </li>
+    <% }); %>
+  </ul>
+</div>
+
+<style>
+.files-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 32px 24px 24px 24px;
+}
+.files-title {
+  margin-bottom: 24px;
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+}
+.files-actions {
+  text-align: right;
+  margin-bottom: 18px;
+}
+.btn {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.btn-primary {
+  background: #007bff;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #0056b3;
+}
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+.btn-home {
+  background: #28a745;
+  color: #fff;
+}
+.btn-home:hover {
+  background: #218838;
+}
+.files-list {
+  list-style: none;
+  padding: 0;
+}
+.files-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.files-filename a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+.files-filename a:hover {
+  text-decoration: underline;
+}
+.btn-sm {
+  font-size: 0.9rem;
+  padding: 3px 10px;
+}
+.btn-edit {
+  background: #ffc107;
+  color: #333;
+  margin-left: 10px;
+}
+.btn-edit:hover {
+  background: #e0a800;
+}
+.files-empty {
+  color: #888;
+  text-align: center;
+  padding: 20px 0;
+}
+</style>

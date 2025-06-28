@@ -1,6 +1,6 @@
 // Authentication middleware for protected routes
 
-module.exports = {
+const { requireAuth, redirectIfAuth, guestOnly } = {
     // Middleware to check if user is authenticated
     requireAuth: function (req, res, next) {
         if (req.session && req.session.user) {
@@ -30,3 +30,5 @@ module.exports = {
         }
     }
 };
+
+module.exports = { requireAuth, redirectIfAuth, guestOnly };
