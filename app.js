@@ -43,15 +43,6 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// filepath: app.js (or your main server file)
-app.get('/auth', (req, res) => {
-  res.render('auth');
-});
-
-
-
-
-
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development

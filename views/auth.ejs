@@ -56,21 +56,31 @@
                                                                         id="loginPassword" name="password" required>
                                                                 </div>
                                                             </div>
-
                                                             <div class="mb-3 form-check">
                                                                 <input type="checkbox" class="form-check-input"
-                                                                    id="rememberMe">
+                                                                    id="rememberMe" name="rememberMe">
                                                                 <label class="form-check-label"
                                                                     for="rememberMe">Remember me</label>
                                                             </div>
 
-                                                            <button type="submit" class="btn btn-primary w-100 mb-3">
-                                                                <i class="fas fa-sign-in-alt me-2"></i>Login
-                                                            </button>
+                                                            <% if (typeof loginAttempts !=='undefined' && loginAttempts>
+                                                                0) { %>
+                                                                <div class="alert alert-warning" role="alert">
+                                                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                                                    You have <%= 3 - loginAttempts %> login attempts
+                                                                        remaining.
+                                                                </div>
+                                                                <% } %>
 
-                                                            <div class="text-center">
-                                                                <a href="#" class="text-muted">Forgot password?</a>
-                                                            </div>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary w-100 mb-3">
+                                                                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                                                                    </button>
+
+                                                                    <div class="text-center">
+                                                                        <a href="#" class="text-muted">Forgot
+                                                                            password?</a>
+                                                                    </div>
                                                         </form>
                                     </div>
                                 </div>
@@ -112,7 +122,15 @@
                                                         <i class="fas fa-lock"></i>
                                                     </span>
                                                     <input type="password" class="form-control" id="registerPassword"
-                                                        name="password" required>
+                                                        name="password" required oninput="checkPasswordStrength()">
+                                                </div>
+                                                <div class="mt-2">
+                                                    <div class="progress" style="height: 5px;">
+                                                        <div class="progress-bar" id="passwordStrength"
+                                                            role="progressbar" style="width: 0%"></div>
+                                                    </div>
+                                                    <small class="text-muted" id="passwordStrengthText">Password
+                                                        strength: Enter a password</small>
                                                 </div>
                                             </div>
 
@@ -124,6 +142,20 @@
                                                     </span>
                                                     <input type="password" class="form-control" id="confirmPassword"
                                                         name="confirmPassword" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="captcha" class="form-label">Security Check</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-question-circle"></i>
+                                                    </span>
+                                                    <span class="input-group-text" id="captchaQuestion">
+                                                        <%= captchaQuestion %>
+                                                    </span>
+                                                    <input type="number" class="form-control" id="captcha"
+                                                        name="captcha" required placeholder="Enter your answer">
                                                 </div>
                                             </div>
 
@@ -170,6 +202,41 @@
                 </div>
             </div>
 
+            <script>
+                function checkPasswordStrength() {
+                    const password = document.getElementById('registerPassword').value;
+                    const strengthBar = document.getElementById('passwordStrength');
+                    const strengthText = document.getElementById('passwordStrengthText');
+
+                    let strength = 0;
+                    let text = 'Password strength: ';
+                    let color = '';
+
+                    if (password.length === 0) {
+                        text += 'Enter a password';
+                        color = '';
+                        strength = 0;
+                    } else if (password.length <= 10) {
+                        text += 'Weak';
+                        color = 'bg-danger';
+                        strength = 33;
+                    } else if (password.length <= 17) {
+                        text += 'Moderate';
+                        color = 'bg-warning';
+                        strength = 66;
+                    } else {
+                        text += 'Strong';
+                        color = 'bg-success';
+                        strength = 100;
+                    }
+
+                    strengthBar.style.width = strength + '%';
+                    strengthBar.className = 'progress-bar ' + color;
+                    strengthText.textContent = text;
+                }
+            </script>
+
             <%- include('partials/footer') %>
     </body>
+
 </html>
