@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head') %>
+
+
+  <head>
+    <%- include('partials/head') %>
+  </head>
 
   <body>
     <%- include('partials/menu') %>
 
-      <!-- Hero Section -->
       <div class="hero-section bg-gradient-primary text-white py-5">
         <div class="container">
           <div class="row align-items-center">
@@ -20,14 +23,14 @@
                   <a href="/dashboard" class="btn btn-light btn-lg me-3">
                     <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
                   </a>
-                  <% } else { %>
-                    <a href="/auth" class="btn btn-light btn-lg me-3">
-                      <i class="fas fa-sign-in-alt me-2"></i>Get Started
-                    </a>
-                    <% } %>
-                      <a href="#features" class="btn btn-outline-light btn-lg">
-                        <i class="fas fa-info-circle me-2"></i>Learn More
-                      </a>
+                <% } else { %>
+                  <a href="/auth" class="btn btn-light btn-lg me-3">
+                    <i class="fas fa-sign-in-alt me-2"></i>Get Started
+                  </a>
+                <% } %>
+                <a href="#features" class="btn btn-outline-light btn-lg">
+                  <i class="fas fa-info-circle me-2"></i>Learn More
+                </a>
               </div>
             </div>
             <div class="col-lg-6 text-center">
@@ -37,7 +40,6 @@
         </div>
       </div>
 
-      <!-- Features Section -->
       <section id="features" class="py-5">
         <div class="container">
           <div class="row text-center mb-5">
