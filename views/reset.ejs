@@ -1,0 +1,21 @@
+<%- include('partials/head') %>
+<%- include('partials/menu') %>
+<div class="container mt-4">
+  <h2>Reset Password</h2>
+  <% if (typeof error !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error %></div>
+  <% } %>
+  <% if (typeof message !== 'undefined') { %>
+    <div class="alert alert-success"><%= message %></div>
+  <% } %>
+  <% if (typeof token !== 'undefined') { %>
+  <form action="/password/reset/<%= token %>" method="POST">
+    <div class="mb-3">
+      <label for="password" class="form-label">New Password</label>
+      <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-success">Reset Password</button>
+  </form>
+  <% } %>
+</div>
+<%- include('partials/footer') %>
