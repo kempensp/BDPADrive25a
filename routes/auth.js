@@ -76,10 +76,18 @@ router.post('/login', async function (req, res, next) {
             });
         }        // Step 1: Get user data (including salt) from API
         const userUrl = `${apiConfig.baseUrl}${apiConfig.endpoints.users}/${encodeURIComponent(username)}`;
-        debugLog('Fetching user data from', userUrl);
+        debugLog('API CALL - GET User Data', {
+            url: userUrl,
+            method: 'GET',
+            headers: { Authorization: `Bearer ${BEARER_TOKEN}` }
+        });
 
         const userResponse = await apiRequests.getWithBearerToken(userUrl, BEARER_TOKEN);
-        debugLog('User response', { status: userResponse.status });
+        debugLog('API RESPONSE - GET User Data', {
+            url: userUrl,
+            status: userResponse.status,
+            responseData: userResponse.data
+        });
 
         if (userResponse.status !== 200) {
             // Increment login attempts
@@ -100,22 +108,34 @@ router.post('/login', async function (req, res, next) {
         }
 
         const salt = userResponse.data.user.salt;
-        debugLog('Retrieved salt for user', { username });
+        debugLog('Retrieved salt for user', { username, saltLength: salt.length });
 
         // Step 2: Generate key using password and salt
         const key = cryptoUtils.generateKey(password, salt);
-        debugLog('Generated key for authentication');
+        debugLog('Generated key for authentication', { keyLength: key.length });
 
-        // Step 3: Authenticate with API
-        const authUrl = `${apiConfig.baseUrl}${apiConfig.endpoints.auth}`;
+        // Step 3: Authenticate with API using user-specific auth endpoint
+        const authUrl = `${apiConfig.baseUrl}${apiConfig.endpoints.users}/${encodeURIComponent(username)}/auth`;
         const authData = {
-            username: username,
             key: key
         };
 
-        debugLog('Authenticating with API', { username });
+        debugLog('API CALL - POST Authentication', {
+            url: authUrl,
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${BEARER_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            requestData: authData
+        });
+
         const authResponse = await apiRequests.postWithBearerToken(authUrl, BEARER_TOKEN, authData);
-        debugLog('Auth response', { status: authResponse.status });
+        debugLog('API RESPONSE - POST Authentication', {
+            url: authUrl,
+            status: authResponse.status,
+            responseData: authResponse.data
+        });
 
         if (authResponse.status === 200) {
             // Successful authentication - use user data from initial API call
@@ -156,7 +176,11 @@ router.post('/login', async function (req, res, next) {
         }
 
     } catch (error) {
-        debugLog('Login error', { error: error.message });
+        debugLog('EXCEPTION - Login error', {
+            error: error.message,
+            stack: error.stack,
+            username: username || 'unknown'
+        });
         return res.render('auth', {
             title: 'BDPADrive - Authentication',
             error: 'An error occurred during login. Please try again.',
@@ -241,7 +265,13 @@ router.post('/register', async function (req, res, next) {
 
         // Generate salt and key for new user
         const { salt, key } = cryptoUtils.generateSaltAndKey(password);
-        debugLog('Generated salt and key for new user', { username });
+        debugLog('Generated salt and key for new user', {
+            username,
+            saltLength: salt.length,
+            keyLength: key.length,
+            salt: salt,
+            key: key.substring(0, 20) + '...' // Show first 20 chars of key for security
+        });
 
         // Create user via API
         const createUserUrl = `${apiConfig.baseUrl}${apiConfig.endpoints.users}`;
@@ -252,9 +282,27 @@ router.post('/register', async function (req, res, next) {
             key: key
         };
 
-        debugLog('Creating user via API', { username, email });
+        debugLog('API CALL - POST Create User', {
+            url: createUserUrl,
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${BEARER_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            requestData: {
+                username: userData.username,
+                email: userData.email,
+                salt: userData.salt,
+                key: userData.key.substring(0, 20) + '...' // Truncate key for security
+            }
+        });
+
         const createResponse = await apiRequests.postWithBearerToken(createUserUrl, BEARER_TOKEN, userData);
-        debugLog('Create user response', { status: createResponse.status });
+        debugLog('API RESPONSE - POST Create User', {
+            url: createUserUrl,
+            status: createResponse.status,
+            responseData: createResponse.data
+        });
 
         if (createResponse.status === 201) {
             // User created successfully
@@ -284,7 +332,17 @@ router.post('/register', async function (req, res, next) {
             });
         } else {
             // Other API error
-            debugLog('API error during user creation', { status: createResponse.status, data: createResponse.data });
+            debugLog('API ERROR - User creation failed', {
+                url: createUserUrl,
+                status: createResponse.status,
+                responseData: createResponse.data,
+                requestData: {
+                    username: userData.username,
+                    email: userData.email,
+                    salt: userData.salt,
+                    key: userData.key.substring(0, 20) + '...'
+                }
+            });
             const newCaptcha = generateCaptcha();
             req.session.captcha = newCaptcha.answer;
             return res.render('auth', {
@@ -297,7 +355,11 @@ router.post('/register', async function (req, res, next) {
         }
 
     } catch (error) {
-        debugLog('Registration error', { error: error.message });
+        debugLog('EXCEPTION - Registration error', {
+            error: error.message,
+            stack: error.stack,
+            url: createUserUrl || 'unknown'
+        });
         const newCaptcha = generateCaptcha();
         req.session.captcha = newCaptcha.answer;
         return res.render('auth', {
