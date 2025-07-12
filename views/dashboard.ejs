@@ -6,152 +6,264 @@
         <%- include('partials/menu') %>
 
             <div class="container py-4">
-                <!-- Welcome Header -->
+                <!-- User Profile Header -->
                 <div class="row mb-4">
                     <div class="col-12">
-                        <div class="welcome-header bg-gradient-primary text-white p-4 rounded">
-                            <h1 class="h3 mb-2">
-                                <i class="fas fa-user-circle me-2"></i>Welcome back, <%= user.username %>!
-                            </h1>
-                            <p class="mb-0 opacity-75">Ready to create something amazing today?</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <h4 class="mb-3">Quick Actions</h4>
-                        <div class="row g-3">
-                            <div class="col-md-3">
-                                <div class="card h-100 text-center quick-action-card">
-                                    <div class="card-body">
-                                        <i class="fas fa-plus-circle fa-2x text-primary mb-3"></i>
-                                        <h6 class="card-title">New Document</h6>
-                                        <button class="btn btn-primary btn-sm">Create</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="card h-100 text-center quick-action-card">
-                                    <div class="card-body">
-                                        <i class="fas fa-folder-plus fa-2x text-success mb-3"></i>
-                                        <h6 class="card-title">New Folder</h6>
-                                        <button class="btn btn-success btn-sm">Create</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="card h-100 text-center quick-action-card">
-                                    <div class="card-body">
-                                        <i class="fas fa-upload fa-2x text-info mb-3"></i>
-                                        <h6 class="card-title">Upload File</h6>
-                                        <button class="btn btn-info btn-sm">Upload</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="card h-100 text-center quick-action-card">
-                                    <div class="card-body">
-                                        <i class="fas fa-search fa-2x text-warning mb-3"></i>
-                                        <h6 class="card-title">Search Files</h6>
-                                        <button class="btn btn-warning btn-sm">Search</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recent Files and Statistics -->
-                <div class="row">
-                    <!-- Recent Files -->
-                    <div class="col-lg-8">
                         <div class="card">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-md-2 text-center">
+                                        <img src="<%= gravatar %>" alt="Profile Picture" class="rounded-circle" width="80" height="80">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <h2 class="mb-1"><%= user.username %></h2>
+                                        <p class="text-muted mb-0"><%= user.email %></p>
+                                        <div class="mt-2">
+                                            <span class="badge bg-success me-2">Questions: <%= userQuestions.length %></span>
+                                            <span class="badge bg-info">Answers: <%= userAnswers.length %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Content -->
+                <div class="row">
+                    <!-- My Questions -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0">
-                                    <i class="fas fa-clock me-2"></i>Recent Files
+                                    <i class="fas fa-question-circle me-2"></i>My Questions
                                 </h5>
-                                <a href="/files" class="btn btn-sm btn-outline-primary">View All</a>
+                                <a href="/questions/new" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-plus me-1"></i>Ask Question
+                                </a>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Type</th>
-                                                <th>Modified</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- No placeholder files - will be populated from API -->
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="text-center text-muted py-3">
-                                    <i class="fas fa-inbox fa-2x mb-2"></i>
-                                    <p>No recent files found. <a href="#" class="text-decoration-none">Create your first
-                                            document</a></p>
-                                </div>
+                                <% if (userQuestions.length === 0) { %>
+                                    <div class="text-center text-muted py-4">
+                                        <i class="fas fa-question-circle fa-3x mb-3"></i>
+                                        <p>You haven't asked any questions yet.</p>
+                                        <a href="/questions/new" class="btn btn-primary">Ask Your First Question</a>
+                                    </div>
+                                <% } else { %>
+                                    <div class="list-group list-group-flush">
+                                        <% userQuestions.forEach(question => { %>
+                                            <div class="list-group-item border-0 px-0">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">
+                                                        <a href="/questions/<%= question.id %>" class="text-decoration-none">
+                                                            <%= question.title %>
+                                                        </a>
+                                                    </h6>
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-thumbs-up me-1"></i><%= question.votes || 0 %>
+                                                    </small>
+                                                </div>
+                                                <p class="mb-1 text-muted small">
+                                                    <%= question.preview || question.content.substring(0, 100) %>...
+                                                </p>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    <%= new Date(question.created_at).toLocaleDateString() %>
+                                                </small>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                <% } %>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Statistics -->
-                    <div class="col-lg-4">
-                        <div class="card mb-3">
+                    <!-- My Answers -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
                             <div class="card-header">
                                 <h5 class="card-title mb-0">
-                                    <i class="fas fa-chart-pie me-2"></i>Storage Usage
-                                </h5>
-                            </div>
-                            <div class="card-body text-center">
-                                <div class="progress mb-3" style="height: 20px;">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 35%">
-                                        35%
-                                    </div>
-                                </div>
-                                <p class="mb-0">3.5 GB of 10 GB used</p>
-                                <small class="text-muted">6.5 GB remaining</small>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title mb-0">
-                                    <i class="fas fa-info-circle me-2"></i>Account Info
+                                    <i class="fas fa-comment-alt me-2"></i>My Answers
                                 </h5>
                             </div>
                             <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label text-muted">Username</label>
-                                    <p class="mb-0">
-                                        <%= user.username %>
-                                    </p>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label text-muted">Email</label>
-                                    <p class="mb-0">
-                                        <%= user.email %>
-                                    </p>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label text-muted">Account Type</label>
-                                    <p class="mb-0">
-                                        <span class="badge bg-success">Premium</span>
-                                    </p>
-                                </div>
-                                <a href="/profile" class="btn btn-outline-primary btn-sm w-100">
-                                    <i class="fas fa-user-edit me-2"></i>Edit Profile
-                                </a>
+                                <% if (userAnswers.length === 0) { %>
+                                    <div class="text-center text-muted py-4">
+                                        <i class="fas fa-comment-alt fa-3x mb-3"></i>
+                                        <p>You haven't answered any questions yet.</p>
+                                        <a href="/questions" class="btn btn-primary">Browse Questions</a>
+                                    </div>
+                                <% } else { %>
+                                    <div class="list-group list-group-flush">
+                                        <% userAnswers.forEach(answer => { %>
+                                            <div class="list-group-item border-0 px-0">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">
+                                                        <a href="/questions/<%= answer.question_id %>" class="text-decoration-none">
+                                                            Answer to: <%= answer.question_title %>
+                                                        </a>
+                                                    </h6>
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-thumbs-up me-1"></i><%= answer.votes || 0 %>
+                                                    </small>
+                                                </div>
+                                                <p class="mb-1 text-muted small">
+                                                    <%= answer.content.substring(0, 100) %>...
+                                                </p>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    <%= new Date(answer.created_at).toLocaleDateString() %>
+                                                </small>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                <% } %>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Account Settings -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-cog me-2"></i>Account Settings
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card bg-light">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-envelope fa-2x text-primary mb-2"></i>
+                                                <h6 class="card-title">Change Email</h6>
+                                                <p class="card-text small text-muted">Update your email address</p>
+                                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#changeEmailModal">
+                                                    Change Email
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card bg-light">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-lock fa-2x text-warning mb-2"></i>
+                                                <h6 class="card-title">Change Password</h6>
+                                                <p class="card-text small text-muted">Update your password</p>
+                                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                                    Change Password
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card bg-light">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-trash fa-2x text-danger mb-2"></i>
+                                                <h6 class="card-title">Delete Account</h6>
+                                                <p class="card-text small text-muted">Permanently delete your account</p>
+                                                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                                    Delete Account
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Change Email Modal -->
+            <div class="modal fade" id="changeEmailModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Change Email Address</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form action="/dashboard/change-email" method="POST">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="newEmail" class="form-label">New Email Address</label>
+                                    <input type="email" class="form-control" id="newEmail" name="newEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="currentPassword" class="form-label">Current Password</label>
+                                    <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Update Email</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Change Password Modal -->
+            <div class="modal fade" id="changePasswordModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Change Password</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form action="/dashboard/change-password" method="POST">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="currentPasswordChange" class="form-label">Current Password</label>
+                                    <input type="password" class="form-control" id="currentPasswordChange" name="currentPassword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="newPassword" class="form-label">New Password</label>
+                                    <input type="password" class="form-control" id="newPassword" name="newPassword" required minlength="8">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+                                    <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-warning">Change Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Account Modal -->
+            <div class="modal fade" id="deleteAccountModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delete Account</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form action="/dashboard/delete-account" method="POST">
+                            <div class="modal-body">
+                                <div class="alert alert-danger">
+                                    <strong>Warning:</strong> This action cannot be undone. All your questions, answers, and account data will be permanently deleted.
+                                </div>
+                                <div class="mb-3">
+                                    <label for="deletePassword" class="form-label">Enter your password to confirm</label>
+                                    <input type="password" class="form-control" id="deletePassword" name="password" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="deleteConfirmation" class="form-label">Type "DELETE" to confirm</label>
+                                    <input type="text" class="form-control" id="deleteConfirmation" name="confirmation" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-danger">Delete Account</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

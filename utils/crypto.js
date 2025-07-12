@@ -29,8 +29,20 @@ function generateSaltAndKey(password) {
     return { salt, key };
 }
 
+/**
+ * Generate Gravatar URL from email address
+ * @param {string} email - The user's email address
+ * @param {number} size - Optional size parameter (default: 80)
+ * @returns {string} Gravatar URL
+ */
+function generateGravatarUrl(email, size = 80) {
+    const hash = crypto.createHash('md5').update(email.toLowerCase().trim()).digest('hex');
+    return `https://www.gravatar.com/avatar/${hash}?s=${size}&d=identicon`;
+}
+
 module.exports = {
     generateSalt,
     generateKey,
-    generateSaltAndKey
+    generateSaltAndKey,
+    generateGravatarUrl
 };

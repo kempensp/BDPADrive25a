@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+  <%- include('partials/menu') %>
+  <div class="container py-5">
+    <h2 class="mb-4">Search Files & Folders</h2>
+    <form method="GET" action="/search" class="row g-3 mb-4">
+      <div class="col-md-3">
+        <input type="text" class="form-control" name="name" placeholder="Name">
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" name="tag" placeholder="Tag">
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" name="content" placeholder="Text Content">
+      </div>
+      <div class="col-md-2">
+        <select class="form-select" name="type">
+          <option value="">Type</option>
+          <option value="file">File</option>
+          <option value="directory">Directory</option>
+          <option value="symlink">Symlink</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-primary w-100"><i class="fas fa-search me-2"></i>Search</button>
+      </div>
+    </form>
+    <% if (typeof results !== 'undefined') { %>
+      <% if (results.length === 0) { %>
+        <div class="alert alert-warning">No results found.</div>
+      <% } else { %>
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Tags</th>
+                <th>Created</th>
+                <th>Modified</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% results.forEach(function(item) { %>
+                <tr>
+                  <td><%= item.name %></td>
+                  <td><%= item.type %></td>
+                  <td><%= item.tags ? item.tags.join(', ') : '' %></td>
+                  <td><%= item.createdAt ? item.createdAt : '' %></td>
+                  <td><%= item.modifiedAt ? item.modifiedAt : '' %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    <% } %>
+    <% if (typeof error !== 'undefined') { %>
+      <div class="alert alert-danger mt-3"><%= error %></div>
+    <% } %>
+  </div>
+  <%- include('partials/footer') %>
+</body>
+</html>

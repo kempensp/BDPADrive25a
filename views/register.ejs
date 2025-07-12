@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <style>
+    .strength-weak { color: red; }
+    .strength-moderate { color: orange; }
+    .strength-strong { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Register</h1>
+  <form id="registerForm">
+    <label>Username (alphanumeric, dashes, underscores): <input type="text" id="username" name="username" required pattern="^[a-zA-Z0-9_-]+$"></label><br>
+    <label>Email: <input type="email" id="email" name="email" required></label><br>
+    <label>Password: <input type="password" id="password" name="password" required></label>
+    <span id="passwordStrength"></span><br>
+    <label><%= captcha.question %> <input type="text" id="captcha" name="captcha" required></label><br>
+    <button type="submit">Register</button>
+    <div id="errorMsg" class="error"></div>
+    <div id="successMsg"></div>
+  </form>
+  <script>
+    // Password strength indicator
+    const passwordInput = document.getElementById('password');
+    const passwordStrength = document.getElementById('passwordStrength');
+    passwordInput.addEventListener('input', function() {
+      const len = passwordInput.value.length;
+      if (len <= 10) {
+        passwordStrength.textContent = 'Weak';
+        passwordStrength.className = 'strength-weak';
+      } else if (len <= 17) {
+        passwordStrength.textContent = 'Moderate';
+        passwordStrength.className = 'strength-moderate';
+      } else {
+        passwordStrength.textContent = 'Strong';
+        passwordStrength.className = 'strength-strong';
+      }
+    });
+
+    // Registration form submission
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const captcha = document.getElementById('captcha').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+
+      // Validate username
+      if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
+        errorMsg.textContent = 'Username must be alphanumeric, dashes, or underscores.';
+        return;
+      }
+      // Validate password strength
+      if (password.length <= 10) {
+        errorMsg.textContent = 'Password is too weak (must be more than 10 characters).';
+        return;
+      }
+      // Validate CAPTCHA (must be 4)
+      if (captcha !== '4') {
+        errorMsg.textContent = 'CAPTCHA answer is incorrect.';
+        return;
+      }
+      // Derive salt and login key using Web Crypto API (PBKDF2)
+      function hex(buffer) {
+        return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+      async function deriveKeyAndSalt(password) {
+        const enc = new TextEncoder();
+        const salt = crypto.getRandomValues(new Uint8Array(16));
+        const keyMaterial = await window.crypto.subtle.importKey(
+          'raw', enc.encode(password), {name: 'PBKDF2'}, false, ['deriveBits', 'deriveKey']
+        );
+        const key = await window.crypto.subtle.deriveBits({
+          name: 'PBKDF2',
+          salt: salt,
+          iterations: 100000,
+          hash: 'SHA-256'
+        }, keyMaterial, 512*2); // 128 bytes = 1024 bits
+        return { salt: hex(salt), key: hex(key) };
+      }
+      try {
+        const { salt, key } = await deriveKeyAndSalt(password);
+        console.log('DEBUG: Registration payload', { username, email, salt, key });
+        // Send to API
+        const response = await fetch('https://drive.api.hscc.bdpa.org/v1/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, salt, key })
+        });
+        let data;
+        try {
+          data = await response.json();
+        } catch (jsonErr) {
+          console.error('DEBUG: Failed to parse JSON response', jsonErr);
+          errorMsg.textContent = 'Registration failed: Invalid server response.';
+          return;
+        }
+        console.log('DEBUG: API response', data);
+        if (response.ok && data.success) {
+          successMsg.textContent = 'Registration successful!';
+        } else {
+          errorMsg.textContent = (data && data.message) ? data.message : 'Registration failed.';
+          console.error('DEBUG: Registration failed', data);
+        }
+      } catch (err) {
+        errorMsg.textContent = 'Error: ' + err.message;
+        console.error('DEBUG: Registration error', err);
+      }
+    });
+  </script>
+</body>
+</html>
