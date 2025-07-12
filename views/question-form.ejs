@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+
+<body>
+    <%- include('partials/menu') %>
+
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="h3 mb-2">
+                    <i class="fas fa-question-circle me-2"></i>Ask a Question
+                </h1>
+                <p class="text-muted">Get help from the community by asking a clear, detailed question</p>
+            </div>
+        </div>
+
+        <!-- Question Form -->
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <% if (typeof error !== 'undefined' && error) { %>
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <%= error %>
+                            </div>
+                        <% } %>
+
+                        <form action="/questions/new" method="POST">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">
+                                    <strong>Question Title</strong>
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="title" 
+                                    name="title" 
+                                    placeholder="What's your programming question? Be specific and clear..."
+                                    required
+                                    maxlength="200"
+                                >
+                                <div class="form-text">
+                                    Be specific and imagine you're asking a question to another person.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="content" class="form-label">
+                                    <strong>Question Details</strong>
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <textarea 
+                                    class="form-control" 
+                                    id="content" 
+                                    name="content" 
+                                    rows="10" 
+                                    placeholder="Provide details about your question. Include any relevant code, error messages, or context that would help someone answer your question..."
+                                    required
+                                ></textarea>
+                                <div class="form-text">
+                                    Include all relevant details, code snippets, error messages, and what you've already tried.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">
+                                            <i class="fas fa-lightbulb me-2"></i>Tips for a Great Question
+                                        </h6>
+                                        <ul class="mb-0 small">
+                                            <li>Make your title specific and clear</li>
+                                            <li>Include relevant code snippets</li>
+                                            <li>Explain what you've already tried</li>
+                                            <li>Describe the expected vs. actual behavior</li>
+                                            <li>Use proper formatting and grammar</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <a href="/questions" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Back to Questions
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane me-2"></i>Post Question
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+</body>
+
+</html>

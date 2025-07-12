@@ -15,26 +15,28 @@
             <div class="col-lg-6">
               <h1 class="display-4 fw-bold mb-4">Welcome to BDPADrive</h1>
               <p class="lead mb-4">
-                Experience the future of word processing with our modern, cloud-based platform.
-                Create, edit, and collaborate on documents from anywhere, anytime.
+                Your go-to platform for asking questions and sharing knowledge. Connect with a community of developers, get help with your coding challenges, and share your expertise.
               </p>
               <div class="hero-buttons">
                 <% if (locals.isAuthenticated) { %>
                   <a href="/dashboard" class="btn btn-light btn-lg me-3">
                     <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
                   </a>
+                  <a href="/questions/new" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-question-circle me-2"></i>Ask Question
+                  </a>
                 <% } else { %>
                   <a href="/auth" class="btn btn-light btn-lg me-3">
                     <i class="fas fa-sign-in-alt me-2"></i>Get Started
                   </a>
+                  <a href="/questions" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-question-circle me-2"></i>Browse Questions
+                  </a>
                 <% } %>
-                <a href="#features" class="btn btn-outline-light btn-lg">
-                  <i class="fas fa-info-circle me-2"></i>Learn More
-                </a>
               </div>
             </div>
             <div class="col-lg-6 text-center">
-              <i class="fas fa-cloud-upload-alt hero-icon"></i>
+              <i class="fas fa-question-circle hero-icon"></i>
             </div>
           </div>
         </div>
@@ -45,7 +47,7 @@
           <div class="row text-center mb-5">
             <div class="col-12">
               <h2 class="fw-bold">Powerful Features</h2>
-              <p class="text-muted">Everything you need for modern document creation</p>
+              <p class="text-muted">Everything you need for knowledge sharing and collaboration</p>
             </div>
           </div>
 
@@ -53,30 +55,30 @@
             <div class="col-md-4">
               <div class="feature-card h-100 p-4 text-center">
                 <div class="feature-icon mb-3">
-                  <i class="fas fa-file-alt"></i>
+                  <i class="fas fa-question-circle"></i>
                 </div>
-                <h4>Document Creation</h4>
-                <p class="text-muted">Create and edit documents with our intuitive interface</p>
+                <h4>Ask Questions</h4>
+                <p class="text-muted">Get help from the community by asking detailed questions</p>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="feature-card h-100 p-4 text-center">
                 <div class="feature-icon mb-3">
-                  <i class="fas fa-users"></i>
+                  <i class="fas fa-comments"></i>
                 </div>
-                <h4>Collaboration</h4>
-                <p class="text-muted">Share and collaborate on documents in real-time</p>
+                <h4>Share Knowledge</h4>
+                <p class="text-muted">Answer questions and help others learn and grow</p>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="feature-card h-100 p-4 text-center">
                 <div class="feature-icon mb-3">
-                  <i class="fas fa-cloud-download-alt"></i>
+                  <i class="fas fa-thumbs-up"></i>
                 </div>
-                <h4>Cloud Storage</h4>
-                <p class="text-muted">Access your documents from anywhere with secure cloud storage</p>
+                <h4>Community Voting</h4>
+                <p class="text-muted">Vote on questions and answers to highlight the best content</p>
               </div>
             </div>
           </div>
